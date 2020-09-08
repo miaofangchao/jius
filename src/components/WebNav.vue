@@ -20,13 +20,13 @@
         <li>
           <div class="web-nav-sort-head">招商代理</div>
           <div class="web-nav-sort-list">
-            <router-link to="/InvestmentPage/baijiu?id=1&page=1">白酒招商</router-link>
-            <router-link to="/InvestmentPage/pijiu?id=2&page=1">啤酒招商</router-link>
-            <router-link to="/InvestmentPage/putaojiu?id=4&page=1">葡萄酒</router-link>
-            <router-link to="/InvestmentPage/hongjiu?id=5&page=1">红酒</router-link>
-            <router-link to="/InvestmentPage/baojianjiu?id=3&page=1">保健酒</router-link>
-            <router-link to="/InvestmentPage/guojiu?id=6&page=1">黄果米酒</router-link>
-            <router-link to="http://m.jius.net/weixin/zszx.html">代理意向</router-link>
+            <router-link to="/fl/bj?id=1&p=1">白酒招商</router-link>
+            <router-link to="/fl/pj?id=2&p=1">啤酒招商</router-link>
+            <router-link to="/fl/ptj?id=4&p=1">葡萄酒</router-link>
+            <router-link to="/fl/hj?id=5&p=1">红酒</router-link>
+            <router-link to="/fl/bjj?id=3&p=1">保健酒</router-link>
+            <router-link to="/fl/gj?id=6&p=1">黄果米酒</router-link>
+            <router-link to="/AgentInfor">代理意向</router-link>
             <a href="http://www.jius.net/expo/">糖酒会</a>
             <a href="http://www.jius.net/Article/">酒水咨询</a>
           </div>

@@ -111,7 +111,7 @@ export default {
         //翻页时，触发change事件,改变路由
         turnPage(){
             console.log('turnPage:' + this.selectValue)
-            this.$router.push({path:'/InvestmentPage/'+this.$route.params.id,query:{id:this.$route.query.id,page:this.selectValue}})  
+            this.$router.push({path:'/fl/'+this.$route.params.id,query:{id:this.$route.query.id,p:this.selectValue}})  
         },
         //需要手动激活一次change事件，因为修改value、selected都不触发change
         dispatchEventChange(){
@@ -122,9 +122,9 @@ export default {
         //初始化li的高度
         liResetHeight:{
             bind(el){
-                const windowWidth = document.body.offsetWidth//窗口宽度
+                const appWidth = document.getElementById('app').offsetWidth //窗口宽度 app 的width有最大最小限制，使用body的width会出现值偏大的情况
                 const imgWH = 300 / 225                      //图片的宽高比
-                el.style.height = ( windowWidth - windowWidth * 0.1 ) / 2 / imgWH + 30 + 'px' //0.1是10%，图片的margin；30是p标签的高度，
+                el.style.height = ( appWidth - appWidth * 0.1 ) / 2 / imgWH + 30 + 'px' //0.1是10%，图片的margin；30是p标签的高度，
             }
         }
     },
@@ -151,12 +151,12 @@ export default {
         //当使用浏览器前进、后退按钮改变路由时，刷新selectValue的值
         $route(){
             console.log('$route')
-            this.selectValue = this.$route.query.page
+            this.selectValue = this.$route.query.p
         }
     },
     //当刷新页面时，同步更新selectValue
     mounted() {
-        this.selectValue = this.$route.query.page
+        this.selectValue = this.$route.query.p
     },
 }
 </script>

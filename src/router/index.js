@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from '../components/Main'
-import InvestmentPage from '../components/InvestmentPage'
+import fl from '../components/fl'
 import AgentInfor from '../components/AgentInfor'
 
 Vue.use(VueRouter)
@@ -12,8 +12,8 @@ Vue.use(VueRouter)
     component: Main
   },
   {
-    path:'/InvestmentPage/:id',
-    component: InvestmentPage,
+    path:'/fl/:id',
+    component: fl,
   },
   {
     path:'/AgentInfor',

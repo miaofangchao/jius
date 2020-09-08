@@ -86,7 +86,7 @@ export default {
       //登录窗口显示时，获取焦点
       setTimeout(()=>{
         this.$refs.login.$refs.loginInput.focus()
-      },300)
+      },100)
     },
     closeLogin(){
       this.showLoginFlag = false
@@ -137,10 +137,11 @@ export default {
   },
   directives: {
     divHeight: {
-      bind(el) {
-        let windowWidth = document.body.offsetWidth; //窗口宽度
+      inserted(el) {
+        console.log(document.getElementById('app').offsetWidth)
+        let appWidth = document.getElementById('app').offsetWidth //窗口宽度 app 的width有最大最小限制，使用body的width会出现值偏大的情况
         let imgWH = 113 / 28; //图片的宽高比
-        el.style.height = (windowWidth * 0.3) / imgWH + 20 + "px";
+        el.style.height = (appWidth * 0.3) / imgWH + 20 + "px";
       },
     },
     //v-tap有bug，绑定此事件的元素，在点击时，不会取消input的focus，在手机端会一直获取焦点弹出键盘
@@ -155,15 +156,18 @@ export default {
 };
 </script>
 <style lang="css" scoped>
+/* 过渡有bug */
 .list-enter-active,.list-leave-active{
-    transition: all 0.5s;
+    transition: all 0.2s;
+  }
+  .list-leave-active{
     position: absolute;
   }
   .list-enter,.list-leave-to{
     opacity: 0;
   }
   .list-move{
-    transition: all 0.5s;
+    transition: all 0.2s;
   }
 .Top {
   margin: 0 auto;
@@ -175,7 +179,8 @@ export default {
   position: fixed;
   z-index: 995;
   padding-bottom: 0%;
-  background-color: rgb(205, 16, 10);
+  background: url('../../assets/beijing-top.jpg') repeat;
+  background-size: 100% 100%;
 }
 .Top .logo9998 {
   width: 30%;

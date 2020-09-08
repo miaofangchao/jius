@@ -1,6 +1,19 @@
 <template>
   <div class="login">
-    <form action="http://www.jius.net/Login.asp?Action=Log" ref="login" method="post" name="thisForm">
+    <form
+      action="http://www.jius.net/Login.asp?Action=Log"
+      ref="login"
+      method="post"
+      name="thisForm"
+      accept-charset="gb2312"
+    >
+    <!-- <form
+      action="http://m-cs.jius.net/test.asp"
+      ref="login"
+      method="post"
+      name="thisForm"
+      accept-charset="gb2312"
+    > -->
       <div class="lgtitle">
         <div class="Tback" v-tap="{methods:closeLogin}" />登录
       </div>
@@ -14,10 +27,20 @@
                 type="text"
                 placeholder="请输入用户名"
                 name="UserName"
-                ref="loginInput">
+                ref="loginInput"
+                v-model="userName"
+              />
             </li>
             <li style="border-bottom: none;">
-              <input id="upwd" class="tipInput" type="Password" placeholder="请输入密码" name="PassWord" >
+              <input
+                id="upwd"
+                class="tipInput"
+                type="Password"
+                placeholder="请输入密码"
+                name="PassWord"
+                v-model="passWord"
+                ref="passWord"
+              />
             </li>
             <select name="Cookie" style="display:none">
               <option value="0">不记录</option>
@@ -38,15 +61,59 @@
 </template>
 
 <script>
+import myToast from "../../views/myToast";
+import "@/assets/icon/font_duihao/iconfont.css";
+// import Vue from "vue";
 export default {
+  data() {
+    return {
+      userName: "",
+      passWord: "",
+    };
+  },
   methods: {
     login() {
-      let fromData = new FormData(this.$refs.login)
-      console.log(fromData.get("UserName"))
-      fromData.set("UserName",escape(fromData.get("UserName")))
-      console.log(fromData.get("UserName"))
-      console.log(fromData.get("PassWord"))
-      this.$refs.login.submit();
+      if (this.userName == "") {
+        myToast("请输入账号", 1000);
+        this.$refs.loginInput.focus();
+      } else if (this.passWord == "") {
+        myToast("请输入密码", 1000);
+        this.$refs.passWord.focus();
+      } else {
+        const myForm = new FormData(this.$refs.login);
+        console.log(this.$refs.login);
+        console.log(myForm);
+        // Vue.axios({
+        //   url: "http://m-cs.jius.net/test.asp",
+        //   method: "post",
+        //   headers: {
+        //     "Content-Type": "application/x-www-form-urlencoded",
+        //   },
+        //   // 转换数据，服务端是gbk格式，用escape转码。
+        //   transformRequest: [
+        //     function (data) {
+        //       let ret = "";
+        //       for (let it in data) {
+        //         ret += escape(it) + "=" + escape(data[it]) + "&";
+        //       }
+        //       return ret;
+        //     },
+        //   ],
+        //   data: {
+        //     username:this.userName,
+        //     password: this.passWord,
+        //   },
+        // })
+        //   .then(
+        //     (res) => {
+        //       console.log(res);
+        //     },
+        //     (err) => {
+        //       console.log(err);
+        //     }
+        //   );
+        this.$refs.login.submit();
+      }
     },
     jumpRegister() {
       this.$emit("jumpRegister");

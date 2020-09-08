@@ -66,14 +66,14 @@
   </div>
 </template>
 <script>
-import Header from "./InvestmentPage/Header";
+import Header from "./fl/Header";
 import Footer from "./Footer";
 import CoverFullPage from "../views/CoverFullPage";
 import TransitionFade from "../views/TransitionFade";
 import getAgentInfor from "../api/agentInfor";
 import getTelInfor from "../api/agentInfor-tel";
 import { Indicator } from "mint-ui";
-import { Toast } from "mint-ui";
+import myToast from "../views/myToast"
 export default {
   data() {
     return {
@@ -164,10 +164,7 @@ export default {
         },
         () => {
           Indicator.close();
-          let instance = Toast("加载出错");
-          setTimeout(() => {
-            instance.close();
-          }, 1500);
+          myToast('加载出错',1500)
         }
       );
       // 测试数据
@@ -189,15 +186,9 @@ export default {
         this.inputNum = null;
         window.scrollTo(0, 0);
       } else if (this.inputNum > this.pageCount) {
-        let instance = Toast("请输入小于总页数的值");
-        setTimeout(() => {
-          instance.close();
-        }, 1500);
+        myToast('请输入小于总页数的值',1500)
       } else {
-        let instance = Toast("请输入跳转页数");
-        setTimeout(() => {
-          instance.close();
-        }, 1500);
+        myToast('请输入跳转页数',1500)
       }
     },
     //地区查询
@@ -217,10 +208,7 @@ export default {
         },
         () => {
           Indicator.close();
-          let instance = Toast("加载出错");
-          setTimeout(() => {
-            instance.close();
-          }, 1500);
+          myToast('加载出错',1500)
         }
       );
 
@@ -286,10 +274,7 @@ export default {
       //加载出错，不调用next跳转
       () => {
         Indicator.close();
-        let instance = Toast("加载出错");
-        setTimeout(() => {
-          instance.close();
-        }, 1500);
+        myToast('加载出错',1500);
       }
     );
 
@@ -306,9 +291,6 @@ export default {
 };
 </script>
 <style lang="css" scoped>
-.agent-infor-tel {
-  position: relative;
-}
 .agent-infor-title {
   text-align: left;
   padding-left: 2%;

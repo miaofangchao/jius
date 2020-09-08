@@ -1,7 +1,7 @@
 <template>
   <div
     id="cover-full-page"
-    @touchend="coverClick()"
+    @click="coverClick"
   />
 </template>
 <script>

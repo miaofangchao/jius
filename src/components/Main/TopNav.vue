@@ -2,25 +2,25 @@
   <div class="mnlist">
     <ul class="top-nav-ul">
       <li>
-        <router-link to="/InvestmentPage/baijiu?id=1&page=1">
+        <router-link to="/fl/bj?id=1&page=1">
           <img src="@/assets/baijiu.png" />
           <p>白酒招商</p>
         </router-link>
       </li>
       <li>
-        <router-link to="/InvestmentPage/pijiu?id=2&page=1">
+        <router-link to="/fl/pj?id=2&page=1">
           <img src="@/assets/pijiu.png" />
           <p>啤酒招商</p>
         </router-link>
       </li>
       <li>
-        <router-link to="/InvestmentPage/putaojiu?id=4&page=1">
+        <router-link to="/fl/ptj?id=4&page=1">
           <img src="@/assets/hongjiu.png" />
           <p>葡萄酒招商</p>
         </router-link>
       </li>
       <li>
-        <router-link to="/InvestmentPage/baojianjiu?id=3&page=1">
+        <router-link to="/fl/bjj?id=3&page=1">
           <img src="@/assets/baojianjiu.png" />
           <p>保健酒招商</p>
         </router-link>

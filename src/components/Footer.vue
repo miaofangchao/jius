@@ -24,7 +24,8 @@ export default {
 </script>
 <style lang="css" scoped>
     .foot{
-        background-color: rgb(203,14,10) !important;
+        background: url('../assets/beijing-foot.jpg') repeat !important;
+        background-size: 100% 100%;
         color: #FFFFFF;
     }
     .foot a{

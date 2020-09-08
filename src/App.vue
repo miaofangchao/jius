@@ -49,6 +49,11 @@ export default {
     CoverFullPage,
     TransitionScale
   },
+  watch: {
+    $route(){
+      this.closeAll()
+    }
+  },
   methods: {
     toggleFloatNavButtonMenuFlag() {
       this.showFloatNavButtonMenuFlag = true;
@@ -114,12 +119,15 @@ body {
 }
 @media (min-width: 720px) {
   body {
-    font-size: 28px;
+    font-size: 25px;
   }
 }
 a {
   color: #1c1c1c;
-  text-decoration: none;
+}
+a, a:hover, a:visited, a:link, a:active , a:focus {
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(168, 14, 14, 0); /*解决手机版点击背景问题*/
 }
 ul,
 ol,

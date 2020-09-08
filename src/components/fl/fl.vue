@@ -12,7 +12,7 @@ import CompanyList from './CompanyList'
 import Vue from 'vue'
 import { Indicator } from 'mint-ui'
 import { Toast } from 'mint-ui'
-import getUrl from '../../api/InvestmentPage'
+import getUrl from '../../api/fl'
 export default {
     data() {
         return {
@@ -28,7 +28,7 @@ export default {
         console.log('beforeRouteEnter')
         //打开加载动画
         Indicator.open()
-        Vue.axios.get(getUrl(to.query.id,to.query.page))
+        Vue.axios.get(getUrl(to.query.id,to.query.p))
         .then((res)=>{
             next(vm=>{
                 vm.listData = res.data
@@ -54,7 +54,7 @@ export default {
         console.log('beforeRouteUpdate:'+ to.fullPath)
         // this.$router.push({params:{id:to.params.id}})
         Indicator.open()
-        Vue.axios.get(getUrl(to.query.id,to.query.page))
+        Vue.axios.get(getUrl(to.query.id,to.query.p))
         .then(res=>{
             this.listData = res.data
             Indicator.close()
@@ -69,7 +69,7 @@ export default {
         // 测试数据
         // setTimeout(()=>{
         //     this.listData = JSON.parse('[{"id": "6563","name":"邵氏茶酒邵氏酒业","imgSrc":"http://www.jius.net/UpFile/Company/201703/1703071150283194.jpg","pageCount":"8"},{"id":"4914","name":"福建双叶猕猴桃酒酿造有限公司","imgSrc":"http://www.jius.net/UpFile/Company/201512/1512041444353372.jpg"},{"id":"4623","name":"仙居县车头酿造厂(普通合伙）","imgSrc":"http://www.jius.net/UpFile/Company/201505/1505161142120230.jpg"},{"id":"176","name":"陕西秦洋长生酒业有限公司","imgSrc":"http://www.jius.net/UpFile/Company/201203/1203241010572768.jpg"},{"id":"5929","name":"山东天地缘酒业有限公司","imgSrc":"http://www.jius.net/UpFile/Company/201611/1611081502528538.jpg"},{"id":"182","name":"上海金枫酒业股份","imgSrc":"http://www.jius.net/UpFile/Company/201203/1203241157396085.jpg"},{"id":"6690","name":"黄山市金状元酿造有限公司","imgSrc":"http://www.jius.net/UpFile/Company/201703/1703210922181266.jpg"},{"id":"185","name":"河南双头黄酒业","imgSrc":"http://www.jius.net/UpFile/Company/201203/1203241452360446.jpg"},{"id":"480","name":"绥芬河市巴里赞姆酒业有限公司深圳分公司","imgSrc":"http://www.jius.net/UpFile/Coupon/201205/1205051543291490.jpg"},{"id":"160","name":"江苏南通白蒲黄酒公司","imgSrc":"http://www.jius.net/UpFile/Company/201203/1203231656104354.jpg"},{"id":"144","name":"江苏省丹阳酒","imgSrc":"http://www.jius.net/UpFile/Company/201203/1203231442216769.jpg"},{"id":"7306","name":"广东桑醇酒业有限公司","imgSrc":"http://www.jius.net/UpFile/Company/201706/1706081055585993.png"},{"id":"7458","name":"瑞安市帆鸣蜂业有限公司","imgSrc":"http://www.jius.net/UpFile/Company/201707/1707241105187594.jpg"},{"id":"6048","name":"深圳壹佰酒业发展有限公司","imgSrc":"http://www.jius.net/UpFile/Company/201612/1612011549197871.jpg"},{"id":"136","name":"河南省镇平枣蜜黄酒厂","imgSrc":"http://www.jius.net/UpFile/Company/201203/1203231149507467.jpg"},{"id":"150","name":"绍兴市百草园酒业","imgSrc":"http://www.jius.net/UpFile/Company/201203/1203231534594360.jpg"},{"id":"7461","name":"上海锦点贸易有限公司","imgSrc":"http://www.jius.net/UpFile/Company/201707/1707241735365087.jpg"},{"id":"8668","name":"河北老城酒业有限公司","imgSrc":"http://www.jius.net/UpFile/Company/201812/1812111624437237.gif"},{"id":"713","name":"东澍酒类经营部","imgSrc":"http://www.jius.net/UpFile/Company/201205/723795609.jpg"},{"id":"4310","name":"成都陵江水蜜桃酒业有限公司","imgSrc":"http://www.jius.net/UpFile/Company/201409/1409101551218262.jpg"}]')
-        //     console.log(getUrl(to.query.id,to.query.page))
+        //     console.log(getUrl(to.query.id,to.query.p))
         //     Indicator.close()
         //     next()
         // },500)
