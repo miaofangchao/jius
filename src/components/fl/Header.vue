@@ -4,22 +4,22 @@
       <li>
         <router-link to="/" exact>首 页</router-link>
       </li>
-      <li :class="{'router-link-active':$route.params.id == 'baijiu'?1:0}">
+      <li :class="{'router-link-active':$route.params.id == 'bj'?1:0}">
         <router-link to="/fl/bj?id=1&p=1">白 酒</router-link>
       </li>
-      <li :class="{'router-link-active':$route.params.id == 'pijiu'?1:0}">
+      <li :class="{'router-link-active':$route.params.id == 'pj'?1:0}">
         <router-link to="/fl/pj?id=2&p=1">啤 酒</router-link>
       </li>
-      <li :class="{'router-link-active':$route.params.id == 'putaojiu'?1:0}">
+      <li :class="{'router-link-active':$route.params.id == 'ptj'?1:0}">
         <router-link to="/fl/ptj?id=4&p=1">葡萄酒</router-link>
       </li>
-      <li :class="{'router-link-active':$route.params.id == 'hongjiu'?1:0}">
+      <li :class="{'router-link-active':$route.params.id == 'hj'?1:0}">
         <router-link to="/fl/hj?id=5&p=1">红 酒</router-link>
       </li>
-      <li :class="{'router-link-active':$route.params.id == 'baojianjiu'?1:0}">
+      <li :class="{'router-link-active':$route.params.id == 'bjj'?1:0}">
         <router-link to="/fl/bjj?id=3&p=1">保健酒</router-link>
       </li>
-      <li :class="{'router-link-active':$route.params.id == 'guojiu'?1:0}">
+      <li :class="{'router-link-active':$route.params.id == 'gj'?1:0}">
         <router-link to="/fl/gj?id=6&p=1">黄米果酒</router-link>
       </li>
       <li :class="{'router-link-active':$route.path == '/AgentInfor'?1:0}">

@@ -155,4 +155,7 @@ p {
 .float-nav-button-leave-active {
   transition: all 0.5s;
 }
+.mint-indicator-mask,.mint-indicator-wrapper{
+  z-index: 99999;
+}
 </style>

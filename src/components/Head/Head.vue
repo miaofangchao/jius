@@ -8,7 +8,7 @@
       </div>
       <form action="http://www.jius.net/Search/Search.asp" name="searchform" method="post" accept-charset="gb2312" ref="searchform">
         <transition-group class="search" tag="div" name="list">        
-          <select name="Type" class="Top-select list-item" v-show="showSelectFlag" @touchend="touchSelect" @change="focusInput" key="1">
+          <select name="Type" class="Top-select" v-show="showSelectFlag" @touchend="touchSelect" @change="focusInput" key="1">
             <option value="Company" selected="selected">企业</option>
             <option value="Product">产品</option>
             <option value="Class">供求</option>
@@ -32,8 +32,9 @@
           <input type="image" :src="sear" class="buttom" key="3" v-tap="{methods:submitForm}"/>
         </transition-group>
       </form>
-      <div class="text" v-tap="{methods:showLogin}">
-        <span id="LoginTxt">登录</span>
+      <div class="text">
+        <span v-show="testLoginStateFlag" v-tap="{methods:showLogin}" id="LoginTxt"><p>{{loginState}}</p></span>
+        <mt-spinner v-show="!testLoginStateFlag" type="fading-circle"></mt-spinner>
       </div>
     </div>
     <TransitionScale>
@@ -64,7 +65,29 @@ export default {
       showRegisterFlag:false,
       showCoverFlag:false,
       showSelectFlag:false,
-      touchSeceltFlag:false//失去焦点，但是点击的是select时，不关闭select
+      touchSeceltFlag:false,//失去焦点，但是点击的是select时，不关闭select
+    }
+  },
+  computed: {
+    testLoginStateFlag(){
+      let loginFlag = this.$root.$data.sharedStore.state.loginFlag
+      if(loginFlag === true){
+        return true
+      }else if(loginFlag === false){
+        return true
+      }else{
+        return false
+      }
+    },
+    loginState(){
+      let loginFlag = this.$root.$data.sharedStore.state.loginFlag
+      if(loginFlag === true){
+        return '管理'
+      }else if(loginFlag === false){
+        return '登录'
+      }else{
+        return '登录'
+      }
     }
   },
   components:{
@@ -81,12 +104,17 @@ export default {
       this.showCoverFlag = false
     },
     showLogin(){
-      this.showLoginFlag = true
-      this.showCoverFlag = true
-      //登录窗口显示时，获取焦点
-      setTimeout(()=>{
-        this.$refs.login.$refs.loginInput.focus()
-      },100)
+      //跳转登录窗口或者代理页面
+      if(this.loginState == '登录'){
+        this.showLoginFlag = true
+        this.showCoverFlag = true
+        //登录窗口显示时，获取焦点
+        setTimeout(()=>{
+          this.$refs.login.$refs.loginInput.focus()
+        },100)
+      }else{
+        this.$router.push('/AgentInfor')
+      }
     },
     closeLogin(){
       this.showLoginFlag = false
@@ -133,12 +161,11 @@ export default {
       }else{
         this.$refs.searchform.submit()
       }
-    }
+    },
   },
   directives: {
     divHeight: {
       inserted(el) {
-        console.log(document.getElementById('app').offsetWidth)
         let appWidth = document.getElementById('app').offsetWidth //窗口宽度 app 的width有最大最小限制，使用body的width会出现值偏大的情况
         let imgWH = 113 / 28; //图片的宽高比
         el.style.height = (appWidth * 0.3) / imgWH + 20 + "px";
@@ -153,22 +180,25 @@ export default {
       }
     }
   },
+  created() {
+    //进入页面或者刷新时，先检测cookie状态
+    let sharedStore = this.$root.$data.sharedStore
+    sharedStore.testLoginState()
+  },
 };
 </script>
 <style lang="css" scoped>
 /* 过渡有bug */
-.list-enter-active,.list-leave-active{
-    transition: all 0.2s;
-  }
-  .list-leave-active{
-    position: absolute;
-  }
-  .list-enter,.list-leave-to{
+  /* .list-enter,.list-leave-to{
     opacity: 0;
   }
-  .list-move{
-    transition: all 0.2s;
+  .list-enter-active,.list-leave-active{
+    position: absolute;
+    transition: all 5s;
   }
+  .list-move{
+    transition: all 5s;
+  } */
 .Top {
   margin: 0 auto;
   width: 100%;
@@ -237,5 +267,9 @@ export default {
   right: 0;
   width: 100%;
   font-size: 120%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

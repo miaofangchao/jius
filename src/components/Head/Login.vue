@@ -7,13 +7,6 @@
       name="thisForm"
       accept-charset="gb2312"
     >
-    <!-- <form
-      action="http://m-cs.jius.net/test.asp"
-      ref="login"
-      method="post"
-      name="thisForm"
-      accept-charset="gb2312"
-    > -->
       <div class="lgtitle">
         <div class="Tback" v-tap="{methods:closeLogin}" />登录
       </div>
@@ -63,12 +56,20 @@
 <script>
 import myToast from "../../views/myToast";
 import "@/assets/icon/font_duihao/iconfont.css";
-// import Vue from "vue";
+import { Indicator } from "mint-ui";
+import login from "../../api/login";
 export default {
   data() {
     return {
       userName: "",
       passWord: "",
+      loginState: [
+        "用户不存在",
+        "用户密码输入不正确",
+        "此用户还没有通过管理员审核",
+        "此用户已被锁定",
+        "欢迎回来，请稍侯",
+      ],
     };
   },
   methods: {
@@ -80,39 +81,43 @@ export default {
         myToast("请输入密码", 1000);
         this.$refs.passWord.focus();
       } else {
-        const myForm = new FormData(this.$refs.login);
-        console.log(this.$refs.login);
-        console.log(myForm);
-        // Vue.axios({
-        //   url: "http://m-cs.jius.net/test.asp",
-        //   method: "post",
-        //   headers: {
-        //     "Content-Type": "application/x-www-form-urlencoded",
-        //   },
-        //   // 转换数据，服务端是gbk格式，用escape转码。
-        //   transformRequest: [
-        //     function (data) {
-        //       let ret = "";
-        //       for (let it in data) {
-        //         ret += escape(it) + "=" + escape(data[it]) + "&";
-        //       }
-        //       return ret;
-        //     },
-        //   ],
-        //   data: {
-        //     username:this.userName,
-        //     password: this.passWord,
-        //   },
-        // })
-        //   .then(
-        //     (res) => {
-        //       console.log(res);
-        //     },
-        //     (err) => {
-        //       console.log(err);
-        //     }
-        //   );
-        this.$refs.login.submit();
+        Indicator.open();
+        login(this.userName, this.passWord).then(
+          (resolve) => {
+            // console.log(resolve);
+            Indicator.close();
+            //过滤查询返回状态，比对loginState数组
+            let n = this.loginState.findIndex((item) => {
+              return resolve.data.indexOf(item) == -1 ? false : true;
+            });
+            switch (n) {
+              case -1:
+                myToast("用户不存在", 1500);
+                break;
+              case 0:
+                myToast("用户不存在", 1500);
+                break;
+              case 1:
+                myToast("用户密码输入不正确", 1500);
+                break;
+              case 2:
+                myToast("此用户还没有通过管理员审核", 1500);
+                break;
+              case 3:
+                myToast("此用户已被锁定", 1500);
+                break;
+              case 4:
+                myToast("欢迎回来!", 1500, "icon-duihao");
+                this.closeLogin();
+                this.$root.$data.sharedStore.login();
+                break;
+            }
+          },
+          (reject) => {
+            console.log(reject);
+            myToast("登录错误", 1500);
+          }
+        );
       }
     },
     jumpRegister() {
