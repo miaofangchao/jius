@@ -20,4 +20,14 @@ const getLoginState = ()=>{
     })
 }
 export default getLoginState
-//返回 true  或者 false
+
+// 数据结构：
+//     登录成功：
+//     {
+//         "loginState":true,
+//         "comId":"企业id"
+//     }
+//     失败：
+//     {
+//         "loginState":false
+//     }

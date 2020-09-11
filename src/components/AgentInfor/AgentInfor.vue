@@ -5,7 +5,7 @@
       :currentPage="currentPage"
       :list="list"
       @getNewPage="getNewPage"
-      title="代理意向信息库"
+      title="全国代理意向"
     />
     <Footer />
   </div>
@@ -13,7 +13,8 @@
 <script>
 import Header from "../fl/Header";
 import Footer from "../Footer";
-import getAgentInfor from "../../api/agentInfor";
+import getAgentInfor from "@/api/agentInfor";
+import getMyAgentInfor from '@/api/agentInfor-my'
 import { Indicator } from "mint-ui";
 import AgentInforList from "./AgentInforList";
 import myToast from "../../views/myToast";
@@ -31,24 +32,43 @@ export default {
   },
   methods: {
     //获取数据：page是当前页数，area是地区
-    getNewPage(...[args]) {
+    getNewPage(flag, ...[args]) {
       let page = args[0];
       let area = args[1];
       let flId = args[2];
       Indicator.open();
-      getAgentInfor(page, area, flId).then(
-        (resolve) => {
-          console.log(resolve.data);
-          this.list = resolve.data;
-          this.currentPage = page;
-          window.scrollTo(0, 0);
-          Indicator.close();
-        },
-        () => {
-          Indicator.close();
-          myToast("加载出错", 1500);
-        }
-      );
+      if (flag === true) {
+        //flag为true获取全国数据
+        getAgentInfor(page, area, flId).then(
+          (resolve) => {
+            console.log(resolve.data);
+            this.list = resolve.data;
+            this.currentPage = page;
+            window.scrollTo(0, 0);
+            Indicator.close();
+          },
+          () => {
+            Indicator.close();
+            myToast("加载出错", 1500);
+          }
+        );
+      }else{
+        //false 获取我的数据
+        let comId = this.$root.$data.sharedStore.state.comId
+        getMyAgentInfor(comId,page,area,flId).then(
+          resolve=>{
+            console.log(resolve.data);
+            this.list = resolve.data;
+            this.currentPage = page;
+            window.scrollTo(0, 0);
+            Indicator.close();
+          },
+          () => {
+            Indicator.close();
+            myToast("加载出错", 1500);
+          }
+        )
+      }
 
       // setTimeout(() => {
       //   Indicator.close();

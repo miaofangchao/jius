@@ -1,8 +1,9 @@
-//定义登录状态
+//定义登录状态,状态很少
 import getLoginState from '../api/mobile-loginState'
 var store = {
   state: {
-    loginFlag: ''
+    loginFlag: '',
+    comId:''
   },
   login() {
     this.state.loginFlag = true
@@ -13,8 +14,8 @@ var store = {
   testLoginState() {
     getLoginState().then(
       (resolve) => {
-        // 转换值，否则是字符串
-        this.state.loginFlag = Boolean(resolve.data)
+        this.state.loginFlag = resolve.data.loginState
+        this.state.comId = resolve.data.comId
       },
       () => {
         this.state.loginFlag = false

@@ -1,15 +1,17 @@
 import Vue from 'vue'
 const testUrl = 'http://m-cs.jius.net'
-const getUrl = (page, area = '',flId = 0) => {
-    return  testUrl + '/agentInfor.asp?page=' + page + '&area=' + escape(area) + '&flId=' + flId
+const getUrl = (comId, page, area = "", flId = 0) => {
+    return testUrl + '/agentInfor-my.asp?comId=' + comId + '&page=' + page + '&area=' + escape(area) + '&flId=' + flId
 }
-const getAgentInfor = (page, area,flId) => {
-    return new Promise((resolve,reject) => {
-        Vue.axios.get(getUrl(page, area,flId)).then(
+const getAgentInfor = (comId,page, area, flId) => {
+    return new Promise((resolve, reject) => {
+        Vue.axios.get(getUrl(comId,page, area, flId)).then(
             (res) => {
+                console.log(getUrl(comId,page, area, flId))
+                console.log(res)
                 resolve(res)
             },
-            ()=>{
+            () => {
                 reject(false)
             }
         )

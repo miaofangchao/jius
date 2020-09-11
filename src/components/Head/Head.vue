@@ -35,6 +35,7 @@
       <div class="text">
         <span v-show="testLoginStateFlag" v-tap="{methods:showLogin}" id="LoginTxt"><p>{{loginState}}</p></span>
         <mt-spinner v-show="!testLoginStateFlag" type="fading-circle"></mt-spinner>
+        <span v-show="logoutFlag" v-tap="{methods:logout}" id="logoutTxt"><p>退出登录</p></span>
       </div>
     </div>
     <TransitionScale>
@@ -55,7 +56,8 @@ import Register from './Register'
 import CoverFullPage from '../../views/CoverFullPage'
 import TransitionFade from '../../views/TransitionFade'
 import TransitionScale from '../../views/TransitionScale'
-import { Toast } from 'mint-ui'
+import myToast from '@/views/myToast'
+import logout from '@/api/logout'
 export default {
   data() {
     return {
@@ -66,6 +68,7 @@ export default {
       showCoverFlag:false,
       showSelectFlag:false,
       touchSeceltFlag:false,//失去焦点，但是点击的是select时，不关闭select
+      logoutFlag:false //退出登录按钮
     }
   },
   computed: {
@@ -113,8 +116,24 @@ export default {
           this.$refs.login.$refs.loginInput.focus()
         },100)
       }else{
-        this.$router.push('/AgentInfor')
+        if(this.$route.path != '/AgentInfor'){
+          this.$router.push('/AgentInfor')
+        }else{
+          this.logoutFlag = !this.logoutFlag
+        }
       }
+    },
+    //退出登录
+    logout(){
+      logout().then(()=>{
+        this.logoutFlag = false
+        myToast('退出登录',1500,'icon-duihao')
+        this.$root.$data.sharedStore.logout()
+      },()=>{
+        this.logoutFlag = false
+        myToast('退出失败',1500)
+      }
+      )
     },
     closeLogin(){
       this.showLoginFlag = false
@@ -154,10 +173,7 @@ export default {
     },
     submitForm(){
       if(this.inputValue == ''){
-        let instance = Toast('请输入搜索关键字');
-        setTimeout(() => {
-            instance.close();
-        }, 1500);
+        myToast('请输入搜索关键字',1500)
       }else{
         this.$refs.searchform.submit()
       }
@@ -202,7 +218,6 @@ export default {
 .Top {
   margin: 0 auto;
   width: 100%;
-  overflow: hidden;
   max-width: 760px;
   min-width: 310px;
   top: 0;
@@ -271,5 +286,12 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+#logoutTxt{
+  top: 150%;
+  background-color: #ce0000;
+  border: 1px solid white;
+  border-radius: 5px;
+  width: 200%;
 }
 </style>

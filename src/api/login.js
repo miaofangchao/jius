@@ -38,3 +38,4 @@ const login = (userName, passWord) => {
     })
 }
 export default login
+//返回值在login中做判断

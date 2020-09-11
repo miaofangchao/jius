@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from '../components/Main'
-import fl from '../components/fl'
-import AgentInfor from '../components/AgentInfor'
+// import fl from '../components/fl'
+// import AgentInfor from '../components/AgentInfor'
+// import Member from '../components/Member'
 
 Vue.use(VueRouter)
 
@@ -13,12 +14,12 @@ Vue.use(VueRouter)
   },
   {
     path:'/fl/:id',
-    component: fl,
+    component: ()=> import(/*webpackChunkName:"router"*/'../components/fl'),
   },
   {
     path:'/AgentInfor',
-    component:AgentInfor
-  }
+    component:()=> import(/*webpackChunkName:"router"*/'../components/AgentInfor')
+  },
   // {
   //   path: '/about',
   //   name: 'About',
