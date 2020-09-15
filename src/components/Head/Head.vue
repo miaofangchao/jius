@@ -279,7 +279,6 @@ export default {
   border: none;
   background-color: white;
   border-radius: 5px;
-  padding: 2% 0;
   font-size: 100%;
   flex: 0;
 }

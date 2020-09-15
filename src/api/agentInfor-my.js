@@ -7,8 +7,8 @@ const getAgentInfor = (comId,page, area, flId) => {
     return new Promise((resolve, reject) => {
         Vue.axios.get(getUrl(comId,page, area, flId)).then(
             (res) => {
-                console.log(getUrl(comId,page, area, flId))
-                console.log(res)
+                // console.log(getUrl(comId,page, area, flId))
+                // console.log(res)
                 resolve(res)
             },
             () => {

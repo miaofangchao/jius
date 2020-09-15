@@ -5,6 +5,7 @@
       :currentPage="currentPage"
       :list="list"
       @getNewPage="getNewPage"
+      :comId="comId"
     />
     <Footer />
   </div>
@@ -24,6 +25,11 @@ export default {
       list: [],
     };
   },
+  computed: {
+    comId(){
+      return this.$root.$data.sharedStore.state.comId
+    }
+  },
   components: {
     Header,
     Footer,
@@ -35,7 +41,7 @@ export default {
       Indicator.open();
         getAgentInfor(1).then(
           (resolve) => {
-              console.log(resolve.data);
+              // console.log(resolve.data);
               this.currentPage = 1;
               this.list = resolve.data;
               Indicator.close();
@@ -57,7 +63,7 @@ export default {
         //flag为true获取全国数据
         getAgentInfor(page, area, flId).then(
           (resolve) => {
-            console.log(resolve.data);
+            // console.log(resolve.data);
             this.list = resolve.data;
             this.currentPage = page;
             window.scrollTo(0, 0);
@@ -70,10 +76,9 @@ export default {
         );
       }else{
         //false 获取我的数据
-        let comId = this.$root.$data.sharedStore.state.comId
-        getMyAgentInfor(comId,page,area,flId).then(
+        getMyAgentInfor(this.comId,page,area,flId).then(
           resolve=>{
-            console.log(resolve.data);
+            // console.log(resolve.data);
             this.list = resolve.data;
             this.currentPage = page;
             window.scrollTo(0, 0);

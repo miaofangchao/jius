@@ -2,15 +2,17 @@
   <div class="agent-infor">
     <div class="agent-infor-content">
       <div class="agent-infor-title">
-        <h2
-          :class="{'agent-infor-title-h2':true,'agent-infor-title-h2-active':lightTitleFlag}"
+        <h3
+          :class="{'agent-infor-title-h3':true,'agent-infor-title-h3-active':lightTitleFlag}"
           v-tap="{methods:toggleToAll}"
-        >全国代理意向</h2>
-        <h2>|</h2>
-        <h2
-          :class="{'agent-infor-title-h2':true,'agent-infor-title-h2-active':!lightTitleFlag}"
+        >全国代理意向</h3>
+        <h3>|</h3>
+        <h3
+          :class="{'agent-infor-title-h3':true,'agent-infor-title-h3-active':!lightTitleFlag}"
           v-tap="{methods:toggleToSingle}"
-        >我的代理意向</h2>
+        >我的代理意向</h3>
+        <h3>|</h3>
+        <h3 class="agent-infor-title-h3" v-tap="{methods:gotoMyhome}">我的企业网站</h3>
       </div>
       <ul class="agent-infor-sertch">
         <li>
@@ -87,6 +89,7 @@ import TransitionFade from "../../views/TransitionFade";
 import getTelInfor from "../../api/agentInfor-tel";
 import { Indicator } from "mint-ui";
 import myToast from "../../views/myToast";
+import gotoMyhome from "@/api/gotoMyhome";
 export default {
   data() {
     return {
@@ -113,6 +116,7 @@ export default {
   props: {
     list: Array, ////数据列表
     currentPage: Number, //当前页码
+    comId: String, //企业id
   },
   computed: {
     //数据总页数，在index==0的那个
@@ -123,15 +127,23 @@ export default {
         return "--";
       }
     },
-    listHeadLast(){
-      return this.lightTitleFlag ? '意向公司' : '详细内容'
-    }
+    listHeadLast() {
+      return this.lightTitleFlag ? "意向公司" : "详细内容";
+    },
+    //登录状态
+    loginFlag() {
+      return this.$root.$data.sharedStore.state.loginFlag;
+    },
   },
   components: {
     CoverFullPage,
     TransitionFade,
   },
   methods: {
+    //触发getNewPage事件，父组件翻页 改变props；this.lightTitleFlag在获取数据时区分是全国还是我的。true是全国，false是我的
+    getNewPage(args) {
+      this.$emit("getNewPage", this.lightTitleFlag, args);
+    },
     //进入全国代理意向
     toggleToAll() {
       if (this.lightTitleFlag == false) {
@@ -147,8 +159,7 @@ export default {
     //我的代理意向
     toggleToSingle() {
       if (this.lightTitleFlag == true) {
-        let loginFlag = this.$root.$data.sharedStore.state.loginFlag;
-        if (loginFlag) {
+        if (this.loginFlag) {
           this.selectArea = "";
           this.selectSortId = 0;
           this.lightTitleFlag = false;
@@ -160,9 +171,13 @@ export default {
         }
       }
     },
-    //触发getNewPage事件，父组件翻页 改变props；this.lightTitleFlag再获取数据时区分是全国还是我的。true是全国，false是我的
-    getNewPage(args) {
-      this.$emit("getNewPage", this.lightTitleFlag, args);
+    //转至公司主页
+    gotoMyhome() {
+      if (this.loginFlag && this.comId != "0") {
+        gotoMyhome(this.comId);
+      } else {
+        myToast("请先登录会员", 2000);
+      }
     },
     toFirstPage() {
       if (this.currentPage != 1) {
@@ -194,7 +209,7 @@ export default {
     closeAll() {
       this.showInputPageNumFlag = false;
     },
-    //跳转翻页窗口
+    //显示跳转翻页窗口
     showInputPageNum() {
       this.showInputPageNumFlag = true;
       setTimeout(() => {
@@ -205,29 +220,23 @@ export default {
     getTel(params) {
       this.showTelFlag = false;
       clearTimeout(this.telTimerId);
-      getTelInfor(params.id).then(
-        (resolve) => {
-          this.tel = resolve.data;
-          this.showTelFlag = true;
-          this.telTimerId = setTimeout(() => {
-            this.showTelFlag = false;
-          }, 5000);
-        },
-        () => {
-          Indicator.close();
-          myToast("加载出错", 2000);
-        }
-      );
-      // 测试数据
-      // setTimeout(() => {
-      //   Indicator.close();
-      //   this.showTelFlag = true;
-      //   this.tel =
-      //     "电话：<img src=/UpFile/CreTel/Dl/399815/c213d61846e406e90b19505575265339.gif border=0 align=absmiddle>";
-      //   this.telTimerId = setTimeout(() => {
-      //     this.showTelFlag = false;
-      //   }, 5000);
-      // }, 500);
+      if (this.loginFlag) {
+        getTelInfor(params.id).then(
+          (resolve) => {
+            this.tel = resolve.data;
+            this.showTelFlag = true;
+            this.telTimerId = setTimeout(() => {
+              this.showTelFlag = false;
+            }, 5000);
+          },
+          () => {
+            Indicator.close();
+            myToast("加载出错", 2000);
+          }
+        );
+      }else{
+        myToast("请先登录会员", 2000);
+      }
     },
     //跳转页数
     jumpPage() {
@@ -242,7 +251,7 @@ export default {
         myToast("请输入跳转页数", 1500);
       }
     },
-    //选择查询
+    //选择地区、分类查询
     querySearch() {
       this.getNewPage([1, this.selectArea, this.selectSortId]);
     },
@@ -293,13 +302,13 @@ export default {
   border-bottom: 1px solid #df3031;
   display: flex;
 }
-.agent-infor-title-h2 {
+.agent-infor-title-h3 {
   text-align: center;
   padding: 0 2%;
   color: black;
   flex: 1;
 }
-.agent-infor-title-h2-active {
+.agent-infor-title-h3-active {
   color: #df3031;
 }
 .agent-infor-content {
@@ -311,19 +320,18 @@ export default {
   flex-wrap: nowrap;
   padding: 1% 1%;
   border-bottom: 1px solid gray;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .agent-infor-sertch li:nth-child(1),
 .agent-infor-sertch li:nth-child(3) {
   align-self: center;
   font-size: 120%;
 }
-/* .agent-infor-sertch li{
-
-} */
 .agent-infor-select {
   font-size: 100%;
   height: 100%;
+  border: 1px solid white;
+  background-color: white;
 }
 .agent-infor-btn {
   font-size: 100%;
@@ -361,6 +369,15 @@ export default {
 .agent-infor-header li:nth-child(1),
 .agent-infor-list li:nth-child(1) {
   width: 20%;
+}
+.agent-infor-list li:nth-child(3) {
+  white-space: nowrap;
+  overflow: hidden;
+  justify-content: center;
+}
+.agent-infor-list li[data-v-155136ed]:nth-child(5) {
+  padding: 5px 0;
+  height: 3em;
 }
 .agent-infor-vip {
   color: red;

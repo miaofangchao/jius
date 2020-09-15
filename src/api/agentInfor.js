@@ -4,7 +4,7 @@ const getUrl = (page, area = '',flId = 0) => {
     return  testUrl + '/agentInfor.asp?page=' + page + '&area=' + escape(area) + '&flId=' + flId
 }
 const getAgentInfor = (page, area,flId) => {
-    console.log(getUrl(page, area,flId))
+    // console.log(getUrl(page, area,flId))
     return new Promise((resolve,reject) => {
         Vue.axios.get(getUrl(page, area,flId)).then(
             (res) => {

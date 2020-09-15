@@ -21,5 +21,6 @@ const getTel = (id)=>{
 }
 export default getTel
 //参数：id：agentInfor获取数据中的id
-// 获取电话信息 ： ,{withCredentials:true}
-//  电话：<img src=/UpFile/CreTel/Dl/399815/c213d61846e406e90b19505575265339.gif border=0 align=absmiddle>
+// 获取电话信息
+// 返回数据：html片段 
+//          电话：<img src=/UpFile/CreTel/Dl/399815/c213d61846e406e90b19505575265339.gif border=0 align=absmiddle>
