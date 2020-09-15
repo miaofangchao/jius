@@ -109,7 +109,9 @@ export default {
               case 4:
                 myToast("欢迎回来!", 1500, "icon-duihao");
                 this.closeLogin();
-                this.$root.$data.sharedStore.login();
+                //更新登录状态获取数据
+                this.$root.$data.sharedStore.testLoginState()
+                // this.$root.$data.sharedStore.login();
                 break;
             }
           },

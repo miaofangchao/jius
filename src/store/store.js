@@ -2,28 +2,21 @@
 import getLoginState from '../api/mobile-loginState'
 var store = {
   state: {
-    loginFlag: '',
+    loginFlag: null,
     comId:''
-  },
-  login() {
-    this.state.loginFlag = true
-  },
-  logout() {
-    this.state.loginFlag = false
   },
   testLoginState() {
     getLoginState().then(
       (resolve) => {
-        this.state.loginFlag = resolve.data.loginState
         this.state.comId = resolve.data.comId
+        setTimeout(() => {
+          this.state.loginFlag = resolve.data.loginState
+        }, 250);
       },
       () => {
         this.state.loginFlag = false
       }
     )
-    // setTimeout(() => {
-    //   this.state.loginFlag = false
-    // }, 1000);
   }
 }
 export default store

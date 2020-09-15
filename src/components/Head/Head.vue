@@ -32,7 +32,7 @@
           <input type="image" :src="sear" class="buttom" key="3" v-tap="{methods:submitForm}"/>
         </transition-group>
       </form>
-      <div class="text">
+      <div class="text" v-scrollClick="closeLogoutFlag">
         <span v-show="testLoginStateFlag" v-tap="{methods:showLogin}" id="LoginTxt"><p>{{loginState}}</p></span>
         <mt-spinner v-show="!testLoginStateFlag" type="fading-circle"></mt-spinner>
         <span v-show="logoutFlag" v-tap="{methods:logout}" id="logoutTxt"><p>退出登录</p></span>
@@ -74,9 +74,7 @@ export default {
   computed: {
     testLoginStateFlag(){
       let loginFlag = this.$root.$data.sharedStore.state.loginFlag
-      if(loginFlag === true){
-        return true
-      }else if(loginFlag === false){
+      if(loginFlag === true || loginFlag === false){
         return true
       }else{
         return false
@@ -84,13 +82,7 @@ export default {
     },
     loginState(){
       let loginFlag = this.$root.$data.sharedStore.state.loginFlag
-      if(loginFlag === true){
-        return '管理'
-      }else if(loginFlag === false){
-        return '登录'
-      }else{
-        return '登录'
-      }
+      return loginFlag === true ? '管理' : '登录'
     }
   },
   components:{
@@ -128,7 +120,8 @@ export default {
       logout().then(()=>{
         this.logoutFlag = false
         myToast('退出登录',1500,'icon-duihao')
-        this.$root.$data.sharedStore.logout()
+        // this.$root.$data.sharedStore.logout()
+        this.$root.$data.sharedStore.testLoginState()
       },()=>{
         this.logoutFlag = false
         myToast('退出失败',1500)
@@ -178,6 +171,9 @@ export default {
         this.$refs.searchform.submit()
       }
     },
+    closeLogoutFlag(){
+      this.logoutFlag = false
+    }
   },
   directives: {
     divHeight: {
@@ -192,6 +188,19 @@ export default {
       componentUpdated(el){
         window.addEventListener('scroll',()=>{
           el.blur()
+        })
+      }
+    },
+    //点击 或者 滚动时 隐藏退出登录按钮
+    scrollClick:{
+      bind:(el,binding)=>{
+        window.addEventListener('touchend',(e)=>{
+          if(!el.contains(e.target)){
+            binding.value()
+          }
+        })
+        window.addEventListener('scroll',()=>{
+          binding.value()
         })
       }
     }

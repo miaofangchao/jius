@@ -5,7 +5,7 @@
         <h2
           :class="{'agent-infor-title-h2':true,'agent-infor-title-h2-active':lightTitleFlag}"
           v-tap="{methods:toggleToAll}"
-        >{{title}}</h2>
+        >全国代理意向</h2>
         <h2>|</h2>
         <h2
           :class="{'agent-infor-title-h2':true,'agent-infor-title-h2-active':!lightTitleFlag}"
@@ -39,7 +39,7 @@
         <li>联系人</li>
         <li>代理区域</li>
         <li>联系电话</li>
-        <li>意向公司</li>
+        <li>{{listHeadLast}}</li>
       </ul>
       <ul class="agent-infor-list" v-for="item in list" :key="item.id">
         <li>{{item.date.split(' ')[0]}}</li>
@@ -113,7 +113,6 @@ export default {
   props: {
     list: Array, ////数据列表
     currentPage: Number, //当前页码
-    title: String,
   },
   computed: {
     //数据总页数，在index==0的那个
@@ -124,6 +123,9 @@ export default {
         return "--";
       }
     },
+    listHeadLast(){
+      return this.lightTitleFlag ? '意向公司' : '详细内容'
+    }
   },
   components: {
     CoverFullPage,
