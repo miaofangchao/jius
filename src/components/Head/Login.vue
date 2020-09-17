@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <form
-      action="http://www.jius.net/Login.asp?Action=Log"
+      action="javascript:void 0"
       ref="login"
       method="post"
       name="thisForm"

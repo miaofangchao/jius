@@ -23,11 +23,12 @@
             class="text"
             placeholder="请输入要查询的关键字"
             v-model="inputValue"
-            @focus="showSelectFlag=true"
+            @focus="showSelect"
             @blur="toggleSelectFlag"
             v-blur
             ref="input"
             key="2"
+            @keydown.enter="submitForm"
           />
           <input type="image" :src="sear" class="buttom" key="3" v-tap="{methods:submitForm}"/>
         </transition-group>
@@ -68,7 +69,7 @@ export default {
       showCoverFlag:false,
       showSelectFlag:false,
       touchSeceltFlag:false,//失去焦点，但是点击的是select时，不关闭select
-      logoutFlag:false //退出登录按钮
+      logoutFlag:false, //退出登录按钮
     }
   },
   computed: {
@@ -148,6 +149,10 @@ export default {
       //关闭注册窗口，失去焦点
       this.$refs.register.$refs.registerInput.blur()
     },
+    //搜索框获取焦点时，
+    showSelect(){
+      this.showSelectFlag = true
+    },
     //input失去焦点，监听select点击状态，如果不是点击的select，隐藏select
     toggleSelectFlag(){
       if(this.touchSeceltFlag){
@@ -187,7 +192,11 @@ export default {
     blur:{
       componentUpdated(el){
         window.addEventListener('scroll',()=>{
-          el.blur()
+          if(navigator.userAgent.indexOf('iPhone') != -1){
+            return
+          }else{
+            el.blur()
+          }
         })
       }
     },
